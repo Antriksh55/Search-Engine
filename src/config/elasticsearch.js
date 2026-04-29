@@ -22,14 +22,18 @@
 
 const { Client } = require('@elastic/elasticsearch');
 
-// Read the Elasticsearch URL from the environment, or fall back to localhost.
 const ELASTICSEARCH_URL = process.env.ELASTICSEARCH_URL || 'http://localhost:9200';
+const ELASTICSEARCH_API_KEY = process.env.ELASTICSEARCH_API_KEY || '';
 
 /**
  * esClient — singleton Elasticsearch client instance.
- * All services import this same object to run queries.
+ * Supports both local (no auth) and Elastic Cloud (API key auth).
  */
-const esClient = new Client({ node: ELASTICSEARCH_URL });
+const clientConfig = { node: ELASTICSEARCH_URL };
+if (ELASTICSEARCH_API_KEY) {
+  clientConfig.auth = { apiKey: ELASTICSEARCH_API_KEY };
+}
+const esClient = new Client(clientConfig);
 
 // Name of the index we store and search documents in.
 const INDEX_NAME = 'documents';

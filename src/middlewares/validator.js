@@ -250,6 +250,9 @@ function validateSearch(req, res, next) {
       .messages({
         'string.isoDate': 'date_to must be a valid ISO 8601 date string (e.g., 2024-01-15T10:00:00Z)',
       }),
+
+    // userId: optional — used for search history tracking
+    userId: Joi.string().optional(),
   });
 
   // Query parameters from URLs are always strings (e.g., page="2", highlight="true").

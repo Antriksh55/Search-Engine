@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexSearch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- HOME -->
+<div id="homePage">
+  <div class="home-inner">
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <h1 class="brand-name">NexSearch</h1>
+      <p class="brand-sub">Powered by Elasticsearch + Redis</p>
+    </div>
+    <div class="search-wrap" id="homeWrap">
+      <div class="search-bar">
+        <span class="s-icon">⌕</span>
+        <input type="text" id="homeInput" placeholder="Search anything..." autocomplete="off"
+          oninput="homeAC(this.value)" onkeydown="if(event.key==='Enter')goSearch()" />
+        <button class="s-btn" onclick="goSearch()">Search</button>
+      </div>
+      <div class="ac-box" id="homeACBox"></div>
+    </div>
+    <div class="uid-line">
+      <span>Session ID</span>
+      <input type="text" id="homeUID" value="user123" />
+    </div>
+    <div class="home-links">
+      <span onclick="showHow()">How it works →</span>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="resultsPage" style="display:none">
+  <nav class="topbar">
+    <div class="top-brand" onclick="goHome()">⚡ NexSearch</div>
+    <div class="search-wrap top-search" id="topWrap">
+      <div class="search-bar small">
+        <span class="s-icon">⌕</span>
+        <input type="text" id="topInput" autocomplete="off"
+          oninput="topAC(this.value)" onkeydown="if(event.key==='Enter')doSearch()" />
+        <button class="s-btn" onclick="doSearch()">Search</button>
+      </div>
+      <div class="ac-box" id="topACBox"></div>
+    </div>
+  </nav>
+
+  <div class="tab-bar">
+    <button class="tab active" onclick="switchTab('results')">Results</button>
+    <button class="tab" onclick="switchTab('history')">History</button>
+    <button class="tab" onclick="switchTab('how')">How It Works</button>
+  </div>
+
+  <div class="page-body">
+
+    <div id="paneResults" class="pane active">
+      <div id="resultsArea"></div>
+    </div>
+
+    <div id="paneHistory" class="pane">
+      <div id="historyArea"></div>
+    </div>
+
+    <div id="paneHow" class="pane">
+      <h2 class="section-title">How your search is processed</h2>
+      <div class="pipeline" id="pipeline"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

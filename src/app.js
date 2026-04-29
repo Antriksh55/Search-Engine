@@ -17,6 +17,7 @@
  */
 
 const express = require('express');
+const path = require('path');
 
 /**
  * helmet — Security Headers Middleware
@@ -68,10 +69,17 @@ const app = express();
 // These run for EVERY request, in the order they are registered.
 
 // 1. Security headers — should be first so every response gets them
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false, // disabled so frontend inline scripts work
+}));
 
 // 2. CORS — allow cross-origin requests from frontend apps on different domains
-app.use(cors());
+app.use(cors({
+  exposedHeaders: ['X-Cache']
+}));
+
+// 3. Serve static frontend files from /public
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // 3. JSON body parser — parses incoming request bodies with Content-Type: application/json
 //    Without this, req.body would be undefined for POST/PUT requests.
