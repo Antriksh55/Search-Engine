@@ -52,11 +52,16 @@ const INDEX_NAME = 'documents';
  *   - category (keyword): stored as-is so we can filter by exact value.
  *   - createdAt (date): lets us sort and range-filter by date.
  */
+// Serverless Elastic Cloud does not support shard/replica settings
+const isServerless = (process.env.ELASTICSEARCH_URL || '').includes('elastic.cloud');
+
 const INDEX_MAPPING = {
-  settings: {
-    number_of_shards: 2,
-    number_of_replicas: 1,
-  },
+  ...(isServerless ? {} : {
+    settings: {
+      number_of_shards: 2,
+      number_of_replicas: 1,
+    }
+  }),
   mappings: {
     properties: {
       title: {
