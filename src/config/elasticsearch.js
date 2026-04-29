@@ -25,18 +25,9 @@ const { Client } = require('@elastic/elasticsearch');
 const ELASTICSEARCH_URL = process.env.ELASTICSEARCH_URL || 'http://localhost:9200';
 const ELASTICSEARCH_API_KEY = process.env.ELASTICSEARCH_API_KEY || '';
 
-/**
- * esClient — singleton Elasticsearch client instance.
- * Supports both local (no auth) and Elastic Cloud (API key auth).
- */
 const clientConfig = { node: ELASTICSEARCH_URL };
 if (ELASTICSEARCH_API_KEY) {
-  // Elastic Cloud API keys are base64-encoded "id:api_key" strings
-  // They must be passed as a Bearer token in the Authorization header
   clientConfig.auth = { apiKey: ELASTICSEARCH_API_KEY };
-  clientConfig.headers = {
-    Authorization: `ApiKey ${ELASTICSEARCH_API_KEY}`
-  };
 }
 const esClient = new Client(clientConfig);
 
