@@ -31,7 +31,12 @@ const ELASTICSEARCH_API_KEY = process.env.ELASTICSEARCH_API_KEY || '';
  */
 const clientConfig = { node: ELASTICSEARCH_URL };
 if (ELASTICSEARCH_API_KEY) {
+  // Elastic Cloud API keys are base64-encoded "id:api_key" strings
+  // They must be passed as a Bearer token in the Authorization header
   clientConfig.auth = { apiKey: ELASTICSEARCH_API_KEY };
+  clientConfig.headers = {
+    Authorization: `ApiKey ${ELASTICSEARCH_API_KEY}`
+  };
 }
 const esClient = new Client(clientConfig);
 
